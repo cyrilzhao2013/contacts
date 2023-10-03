@@ -1,2 +1,2 @@
-export * from "./src/contact.class";
+export * from "./src/group.class";
 export * from "./src/types/group.type";

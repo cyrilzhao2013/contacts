@@ -4,6 +4,10 @@ import * as ContactAPI from "./api/contact.api";
 import { IPaginationReq } from "@/types/pagination.type";
 
 export class Contact extends BaseModule<IContact, never> {
+  getName() {
+    return this.get("firstName") + this.get("lastName");
+  }
+
   async deleteContact() {
     await ContactAPI.deleteContact({ contact_id: this.get("id") });
   }

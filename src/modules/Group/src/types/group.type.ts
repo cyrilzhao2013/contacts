@@ -1,4 +1,3 @@
-export interface IGroup {
-  id: string;
-  name: string;
-}
+import { IGroupApiData } from "./api-response.type";
+
+export type IGroup = IGroupApiData;

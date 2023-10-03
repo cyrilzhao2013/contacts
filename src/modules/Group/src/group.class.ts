@@ -4,24 +4,33 @@ import * as GroupAPI from "./api/group.api";
 
 export class Group extends BaseModule<IGroup, never> {
   async deleteGroup() {
-    await GroupAPI.deleteGroup({ group_id: this.get("id") });
+    await GroupAPI.deleteGroup({ resourceName: this.get("resourceName") });
   }
 
-  async addContact(contactId: string) {
-    await GroupAPI.addContact({
-      contact_id: contactId,
-      group_id: this.get("id"),
+  async addContact(contactResourceName: string) {
+    await GroupAPI.updateContactsInGroup(this.get("resourceName"), {
+      resourceNamesToAdd: [contactResourceName],
     });
   }
 
-  async removeContact(contactId: string) {
-    await GroupAPI.removeContact({
-      contact_id: contactId,
-      group_id: this.get("id"),
+  async removeContact(contactResourceName: string) {
+    await GroupAPI.updateContactsInGroup(this.get("resourceName"), {
+      resourceNamesToRemove: [contactResourceName],
     });
   }
 
-  static async createGroup(data: Pick<IGroup, "name">) {
+  static async createGroup(
+    data: Pick<
+      IGroup,
+      | "resourceName"
+      | "formattedName"
+      | "groupType"
+      | "memberCount"
+      | "memberResourceNames"
+      | "name"
+      | "clientData"
+    >
+  ) {
     const resp = await GroupAPI.createGroup(data);
 
     return new Group(resp);
